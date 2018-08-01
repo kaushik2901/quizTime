@@ -1,0 +1,187 @@
+
+      * {
+        margin: 0px;
+        padding: 0px;
+        font-family:  sans-serif,;/* 'Cormorant Garamond', serif;*/
+        outline: none;
+      }
+
+      body {
+        /*background-color: #30ff67;*/
+        width: 100vw;
+      }
+
+
+      /*rules*/
+
+      .aBody {
+        position: fixed;
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        top: 0px;
+        z-index: 1;
+        overflow: scroll;
+        background: rgba(0,0,0, 0.5);
+      }
+
+      .wrapper {
+        margin: auto;
+        width: 90vw;
+        padding: 10px;
+        background: #2d7eff;
+        border-radius: 5px;
+        overflow: auto;
+        height: 80vh;
+      }
+
+      .wrapper .ruleTitle {
+        text-align: center;
+        color: white;
+      }
+
+      .rules {
+        margin: 20px;
+        word-wrap: break-word;
+        color: white;
+        text-align: center;
+      }
+
+      .ruleBtn {
+        color: white;
+        padding: 10px;
+        width: 200px;
+        border: none;
+        border: 1px solid white;
+        background: transparent;
+        border-radius: 4px;
+        font-size: 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: all 0.1s ease-in;
+      }
+
+      .ruleBtn:hover {
+        background: white;
+        color: black;
+      }
+
+      /*main*/
+
+      nav, footer {
+        background: #2d7eff;
+        position: fixed;
+        width: 100%;
+        color: white;
+      }
+
+      nav {
+         top: 0;
+      }
+
+      footer {
+        bottom: 0;
+        text-align: center;
+      }
+
+      main {
+        margin-top: 100px;
+        margin-bottom: 100px;
+      }
+
+      #username {
+        font-size:  20px;
+        display: inline-block;
+        margin: 20px 0px 20px 20px;
+        word-wrap: break-word;
+        width: 80px;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .content {
+        display: inline-block;
+        margin: 20px 20px 20px 0px;
+        float: right;
+        line-height: 30px;
+      }
+
+      .content * {
+        display: inline-block;
+      }
+
+      .btn {
+        margin: 10px;
+        color: white;
+        padding: 10px;
+        width: 300px;
+        border: none;
+        border: 1px solid white;
+        background: transparent;
+        border-radius: 4px;
+        font-size: 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        /*display: block;*/
+        transition: all 0.1s ease-in;
+      }
+
+      .btn:hover {
+        background: white;
+        color: black;
+      }
+
+
+      .image, .question, .answer {
+        width: auto;
+        margin: 20px;
+        text-align: center;
+      }
+
+      .answer input[type=text] {
+        padding: 7px;
+        border: 1px solid black;
+        border-radius: 4px;
+        width: auto;
+        font-size: 20px;
+        text-align: center;
+      }
+      .answer {
+        text-align: center;
+      }
+
+      .answer .option {
+        border: 1px solid black;
+        width: 250px;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .image img {
+        width: 100%;
+        height: auto;
+      }
+
+      .answer input[type=radio] {
+        display: none;
+      }
+
+      .radioBtn {
+        display: block;
+        margin: 10px;
+        padding: 10px;
+        border: none;
+        border: 1px solid black;
+        background: transparent;
+        border-radius: 4px;
+        font-size: 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        /*display: block;*/
+        transition: all 0.1s ease-in;
+      }
+
+      .radio:checked ~ label {
+        color: white;
+        background: black;
+      }

@@ -1,0 +1,313 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quiz Mania | Home</title>
+    <!-- <meta http-equiv="refresh" content="3"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{% static 'quizMania/css/questions.css' %}">
+    <script type="text/javascript" src="{% static 'quizMania/js/jquery-3.3.1.min.js' %}"></script>
+  </head>
+  <body>
+
+    {% if userStatus.ruleDisplay == True %}
+    <div class="aBody" id="aBody">
+      <div class="wrapper">
+        <h1 class="ruleTitle">Rules</h1>
+
+        <div class="rules">
+          <ul style="text-align: left;">
+            {% for rule in rules %}
+              <li>{{rule.ruleString}}</li><br />
+            {% endfor %}
+          </ul>
+          <br />
+          <input type="checkbox" id="noRules" value="true" /> Do not show again..!!<br /><br />
+          <button class="ruleBtn" id="rulesAccept">ACCEPT</button>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <nav>
+      <h2 id="username">ID : <span>{{user.rollNumber}}</span></h2>
+      <div class="content">
+        <p>Question : </p>
+        <span id="QuestionNo">0</span>/<span id="totalQuestions">0</span> |
+        <p>Time : </p>
+        <span id="timer">0</span>s
+      </div>
+    </nav>
+
+    <main>
+      <div class="question-body" id="question-body">
+      </div>
+    </main>
+
+    <footer>
+      <button class="btn" id="answerSubmitBtn">submit and next</button>
+    </footer>
+    <script type="text/javascript">
+
+    $(document).ready(() => {
+
+      var quizCompletionFlag = 0;
+      var cnt = 0;
+      var currentQuestion = null;
+
+      let renderQuestion = data => {
+        let domElem = ``;
+        switch (data.questionType) {
+          case "A":
+            domElem += `
+              <div class="question">
+                <h3>`+ data.questionString +`</h3>
+              </div>
+              <div class="answer">
+                <input type="text" name="answer" id="answerA" placeholder="Enter answer" />
+              </div>
+            `;
+            break;
+          case "B":
+            domElem += `
+              <div class="image">
+                <img src="`+ data.questionImage +`" alt="image">
+              </div>
+              <div class="question">
+                <h3>`+ data.questionString +`</h3>
+              </div>
+              <div class="answer">
+                <input type="text" name="answer" id="answerA" placeholder="Enter answer" />
+              </div>
+            `;
+            break;
+          case "C":
+            domElem += `
+              <div class="question">
+                <h3>`+ data.questionString +`</h3>
+              </div>
+              <div class="answer">
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerA" value="A" > <label for="answerA" class="radioBtn">`+ data.option1 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerB" value="B" > <label for="answerB" class="radioBtn">`+ data.option2 +`</label> </input>
+                </div>
+              </div>
+            `;
+            break;
+          case "D":
+            domElem += `
+              <div class="image">
+                <img src="`+ data.questionImage +`" alt="image">
+              </div>
+              <div class="question">
+                <h3>`+ data.questionString +`</h3>
+              </div>
+              <div class="answer">
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerA" value="A" > <label for="answerA" class="radioBtn">`+ data.option1 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerB" value="B" > <label for="answerB" class="radioBtn">`+ data.option2 +`</label> </input>
+                </div>
+              </div>
+            `;
+            break;
+          case "E":
+            domElem += `
+              <div class="question">
+                <h3>`+ data.questionString +`</h3>
+              </div>
+              <div class="answer">
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerA" value="A" > <label for="answerA" class="radioBtn">`+ data.option1 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerB" value="B" > <label for="answerB" class="radioBtn">`+ data.option2 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerC" value="C" > <label for="answerC" class="radioBtn">`+ data.option3 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerD" value="D" > <label for="answerD" class="radioBtn">`+ data.option4 +`</label> </input>
+                </div>
+              </div>
+            `;
+            break;
+          case "F":
+            domElem += `
+              <div class="image">
+                <img src="`+ data.questionImage +`" alt="image">
+              </div>
+              <div class="question">
+                <h3>`+ data.questionString +`</h3>
+              </div>
+              <div class="answer">
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerA" value="A" > <label for="answerA" class="radioBtn">`+ data.option1 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerB" value="B" > <label for="answerB" class="radioBtn">`+ data.option2 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerC" value="C" > <label for="answerC" class="radioBtn">`+ data.option3 +`</label> </input>
+                </div>
+                <div class="">
+                  <input type="radio" name="answer" class="radio" id="answerD" value="D" > <label for="answerD" class="radioBtn">`+ data.option4 +`</label> </input>
+                </div>
+              </div>
+            `;
+            break;
+          default:
+
+            break;
+        }
+
+        $("#question-body").html(domElem);
+      }
+
+      let requestQuestion = () => {
+        let data = {
+          "userStatus": {{userStatus.id}}
+        };
+        $.post("../requestQuestion/", data, (data, status) => {
+          if(data === 'completed') {
+            let elem = `
+              <h2 style="text-align: center;">Quiz Completed</h2><br /><br />
+              <h4 style="text-align: center;">Result will be declared soon</h4>
+            `;
+            $("#question-body").html(elem);
+            $("#answerSubmitBtn").attr("disabled", "disabled");
+          } else {
+            currentQuestion = data.question;
+            renderQuestion(data.question);
+            $("#QuestionNo").html(data.QuestionNo);
+            $("#totalQuestions").html(data.totalQuestions);
+          }
+
+          //check question type and render the question
+        });
+      }
+      let temp = null;
+
+      let init = () => {
+        temp = setInterval(() => {
+          if(cnt == 0) {
+            cnt = 40;
+            requestQuestion();
+          }
+          else {
+            $("#timer").html(cnt);
+            cnt--;
+          }
+        }, 1000);
+
+      }
+
+      {% if userStatus.ruleDisplay == True %}
+
+        $("#rulesAccept").click(() => {
+          let isChecked = $("#noRules").prop("checked");
+
+          if(isChecked == true) {
+            let user = {{user.id}};
+
+            let data = {
+              "hideRules": user,
+            };
+
+            $.post("../HideRules/", data, (data, status) => {
+              if(data === 'done') {
+                console.log("done");
+              }
+            });
+          }
+          $("#aBody").remove();
+          // start quiz
+          init();
+        });
+
+      {% else %}
+
+        alert("Quiz is going to start");
+        init();
+
+      {% endif %}
+
+      let newPoints = 0;
+
+      $("#answerSubmitBtn").click((e) => {
+        let ans;
+        let iD = "#answer";
+        switch (currentQuestion.questionType) {
+          case "A":
+              ans = $("#answerA").val();
+              ans = ans.toLowerCase();
+              if(currentQuestion.answer.toLowerCase() === ans) {
+                userPoint = currentQuestion.points;
+              }
+            break;
+          case "B":
+              ans = $("#answerA").val();
+              ans = ans.toLowerCase();
+              if(currentQuestion.answer.toLowerCase() === ans) {
+                userPoint = currentQuestion.points;
+              }
+            break;
+          case "C":
+            if ( $(iD + currentQuestion.answer).prop("checked") == true ) {
+              newPoints += currentQuestion.points;
+            } else {
+              newPoints = 0;
+            }
+            break;
+          case "D":
+            if ( $(iD + currentQuestion.answer).prop("checked") == true ) {
+              newPoints += currentQuestion.points;
+            } else {
+              newPoints = 0;
+            }
+            break;
+          case "E":
+            if ( $(iD + currentQuestion.answer).prop("checked") == true ) {
+              newPoints += currentQuestion.points;
+            } else {
+              newPoints = 0;
+            }
+            break;
+          case "F":
+            if ( $(iD + currentQuestion.answer).prop("checked") == true ) {
+              newPoints += currentQuestion.points;
+            } else {
+              newPoints = 0;
+            }
+            break;
+          default:
+
+            break;
+        }
+        console.log(newPoints);
+
+        let uData = {
+          "userStatus": {{userStatus.id}},
+          "updatePoints": newPoints
+        };
+
+        $.post("../validateAnswer/", uData, (data, status) => {
+          cnt = 0;
+          clearInterval(temp);
+          init();
+        });
+      });
+
+
+    });
+
+
+    </script>
+  </body>
+</html>

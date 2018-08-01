@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quiz Mania | Home</title>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="3"> -->
+
+    <style media="screen">
+
+      * {
+        margin: 0px;
+        padding: 0px;
+        font-family:  sans-serif,;/* 'Cormorant Garamond', serif;*/
+        outline: none;
+      }
+
+      body {
+        /*background-color: #30ff67;*/
+        text-align: center;
+        display: flex;
+        height: 100vh;
+      }
+
+      .wrapper {
+        margin: auto;
+      }
+
+      .logo {
+        display: block;
+      }
+
+      .form {
+        display: block;
+        margin-top: 50px;
+      }
+
+      .form input[type=text] {
+        padding: 7px;
+        border: 1px solid black;
+        border-radius: 4px;
+        width: 250px;
+        font-size: 15px;
+        text-align: center;
+      }
+
+      .btn {
+        color: black;
+        padding: 10px;
+        width: 200px;
+        border: none;
+        border: 1px solid black;
+        background: transparent;
+        border-radius: 4px;
+        font-size: 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: all 0.1s ease-in;
+        /*display: block;*/
+      }
+
+      .form input[type=submit]:hover {
+        background: black;
+        color: white;
+      }
+
+    </style>
+
+    <script type="text/javascript" src="{% static 'quizMania/js/jquery-3.3.1.min.js' %}">
+
+    </script>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="logo">
+        <img src="{% static 'quizMania/images/logo2.svg' %}" alt="Quiz Time" style="width: 200px;height: auto;" />
+      </div>
+      <div class="form-wrapper">
+        <div class="form">
+          {% csrf_token %}
+          <input type="text" name="rollNumber" id="rollNumber" placeholder="ENTER ROLL NUMBER" /><br /><br />
+          <input type="text" name="key" id="key" placeholder="ENTER KEY" /><br /><br />
+          <button class="btn" id="loginBtn" name="login">login</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      $(document).ready(() => {
+
+        $("#loginBtn").click(() => {
+          let rno = $("#rollNumber").val();
+          let key = $("#key").val();
+          let csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+
+          let data = {
+            "rollNumber": rno,
+            "key": key,
+            "csrfmiddlewaretoken": csrfmiddlewaretoken
+          };
+
+          $.post("./login/", data, (data, status) => {
+            alert(data);
+            location.reload();
+          });
+        });
+
+
+
+      });
+
+
+    </script>
+  </body>
+</html>
