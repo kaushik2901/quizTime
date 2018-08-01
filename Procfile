@@ -1,1 +1,1 @@
-web: gunicorn quiztime-induction.wsgi --log-file-
+web: gunicorn quizTime.wsgi --log-file-
