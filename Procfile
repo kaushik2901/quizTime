@@ -1,1 +1,1 @@
-web: gunicorn quizMania.wsgi --log-file-
+web: gunicorn quizMania.wsgi --log-file -
