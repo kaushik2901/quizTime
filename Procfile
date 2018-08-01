@@ -1,1 +1,1 @@
-web: gunicorn quizTime.wsgi --log-file-
+web: gunicorn quizMania.wsgi --log-file-
