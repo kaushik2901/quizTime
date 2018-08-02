@@ -78,24 +78,12 @@ WSGI_APPLICATION = 'quizMania.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'dbc86jtf4hgjr6',
-         'USER': 'ppealwrgjshnmd',
-         'PASSWORD': 'mypython2c2dec912b6744532af288c0ecf5b2299ccc05d631c056d96ced026b2d267f352901',
-         'HOST': 'ec2-184-72-228-128.compute-1.amazonaws.com',
-         'PORT': '5432',
-     }
- }
-
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
