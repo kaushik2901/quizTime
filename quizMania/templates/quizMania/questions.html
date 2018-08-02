@@ -299,6 +299,7 @@
 
         $.post("../validateAnswer/", uData, (data, status) => {
           cnt = 0;
+          newPoints = 0;
           clearInterval(temp);
           init();
         });
