@@ -6,6 +6,9 @@ from .settings import *
 from django.core.exceptions import ObjectDoesNotExist
 import json
 import random
+from math import *
+
+
 
 
 # home page
@@ -178,3 +181,27 @@ def login(request):
             response.set_cookie('quizTimeId', str(user.id), max_age=36000)
             return response
     return HttpResponse("Error : Invalid login request")
+
+def Distance(request):
+    if request.method == "GET":
+        if "str1" in request.GET and "str2" in request.GET:
+            str1 = request.GET['str1']
+            str2 = request.GET['str2']
+            lat1, lon1 = str1.split(',')
+            lat2, lon2 = str2.split(',')
+            
+            try:
+                R = 6373.0
+                lat1 = radians(lat1)
+                lon1 = radians(lon1)
+                lat2 = radians(lat2)
+                lon2 = radians(lon2)
+                dlon = lon2 - lon1
+                dlat = lat2 - lat1
+                a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+                c = 2 * atan2(sqrt(a), sqrt(1 - a))
+                finalD = R * c * 1000
+                return HttpResponse(finalD)
+            except Exception as e:
+                return HttpResponse(100 * 2)
+    return HttpResponse("Error : Invalid request")
