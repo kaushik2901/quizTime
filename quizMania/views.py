@@ -203,5 +203,5 @@ def Distance(request):
                 finalD = R * c * 1000
                 return HttpResponse(finalD)
             except Exception as e:
-                return HttpResponse(100 * 2)
+                return HttpResponse(e)
     return HttpResponse("Error : Invalid request")
