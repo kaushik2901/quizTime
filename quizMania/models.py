@@ -59,10 +59,6 @@ class RoadMapping(models.Model):
     lon1 = models.FloatField(default=0)
     lat2 = models.FloatField(default=0)
     lon2 = models.FloatField(default=0)
-    lat3 = models.FloatField(default=0)
-    lon3 = models.FloatField(default=0)
-    lat4 = models.FloatField(default=0)
-    lon4 = models.FloatField(default=0)
 
     def __str__(self):
         return str(self.road_code)
