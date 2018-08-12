@@ -49,3 +49,22 @@ class Rules(models.Model):
         return str(self.id) + " -> " + str(self.ruleString)
     def __unicode__(self):
         return str(self.id)
+    
+    
+class RoadMapping(models.Model):
+    road_code = models.CharField(max_length=50)
+    road_name = models.CharField(max_length=2000, null=True, blank=True)
+    officer_id = models.IntegerField(default=0)
+    lat1 = models.FloatField(default=0)
+    lon1 = models.FloatField(default=0)
+    lat2 = models.FloatField(default=0)
+    lon2 = models.FloatField(default=0)
+    lat3 = models.FloatField(default=0)
+    lon3 = models.FloatField(default=0)
+    lat4 = models.FloatField(default=0)
+    lon4 = models.FloatField(default=0)
+
+    def __str__(self):
+        return str(self.road_code)
+    def __unicode__(self):
+        return str(self.id)
