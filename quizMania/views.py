@@ -207,24 +207,37 @@ def Distance(request):
     return HttpResponse("Error : Invalid request")
 
 def RoadApi(request):
-    if request.method == "GET":
-        if "lat" in request.GET and "lon" in request.GET:
-            lat = request.GET['lat']
-            lon = request.GET['lon']
-            
-            allRoads = RoadMapping.objects.all()
-            for road in allRoads:
-                if road.lat1 >= lat >= road.lat2 and road.lon1 >= lon >= road.lon2:
-                    data = {
-                        "road_code": road.road_code,
-                        "road_name": road.road_name,
-                        "officer_id": road.officer_id,
-                    }
-                    return JsonResponse(data)
-            return JsonResponse({
-                "error": "road not found"
-            })
-            
-    return JsonResponse({
-        "error": "get method required"
-    })
+	if request.method == "GET":
+			if "lat" in request.GET and "lon" in request.GET:
+				lat = float(request.GET['lat'])
+				lon = float(request.GET['lon'])
+				print(lat, lon)
+				allRoads = RoadMapping.objects.all()
+				for road in allRoads:
+					print(road.lat1, road.lon1, road.lat2, road.lon2)
+
+					if float(road.lat1) >= lat > float(road.lat2) and float(road.lon1) <= lon < float(road.lon2):
+						data = [
+							{
+								"road_code": road.road_code,
+								"road_name": road.road_name,
+								"officer_id": road.officer_id,
+								"distance": random.randint(1, 200)
+							},
+{
+								"road_code": road.road_code,
+								"road_name": road.road_name,
+								"officer_id": road.officer_id,
+								"distance": random.randint(200, 400)
+							}
+						]
+						return JsonResponse(data, safe=False)
+				return JsonResponse({
+					"error": "road not found"
+				})
+			return JsonResponse({
+				"error": "invalid request"
+			})
+	return JsonResponse({
+		"error": "get method required"
+	})
