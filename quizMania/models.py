@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models as geomodels
 
 
 class Users(models.Model):
@@ -62,5 +63,15 @@ class RoadMapping(models.Model):
 
     def __str__(self):
         return str(self.road_code)
+    def __unicode__(self):
+        return str(self.id)
+    
+class Roads(geomodels.Model):
+    name = geomodels.CharField(max_length=50)
+    area = geomodels.IntegerField()
+    road = geomodels.LineStringField()
+    
+    def __str__(self):
+        return str(self.name)
     def __unicode__(self):
         return str(self.id)
