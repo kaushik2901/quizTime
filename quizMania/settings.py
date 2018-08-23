@@ -78,10 +78,22 @@ WSGI_APPLICATION = 'quizMania.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'd9r18ha7b5cbpt',
+        'USER': 'wykbortiqgeelj',
+        'PASSWORD': '6aa175505f5bceabfa32d8531b1a5397a6906cb6ba0afe2512ab455d3b09af01',
+        'HOST': 'postgis://wykbortiqgeelj:6aa175505f5bceabfa32d8531b1a5397a6906cb6ba0afe2512ab455d3b09af01@ec2-54-83-60-13.compute-1.amazonaws.com:5432/d9r18ha7b5cbpt
+',
+        'PORT': '5432',
     }
 }
 
