@@ -209,13 +209,14 @@ def Distance(request):
 
 def RoadApi(request):
     if request.method == "GET":
-        if "lat" in request.GET and "lon" in request.GET:
+        if "lat" in request.GET and "lon" in request.GET and 'dbName' in request.GET:
             lat = str(request.GET['lat'])
             lon = str(request.GET['lon'])
+            dbName = str(request.GET['dbName'])
             print(lat, lon)
 
             cursor = connection.cursor()
-            cursor.execute("SELECT name, description, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM heroku_postgresql_quizmania_roads WHERE distance <= 500 ORDER BY distance LIMIT 2")
+            cursor.execute("SELECT name, description, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM "+ dbName +" WHERE distance <= 500 ORDER BY distance LIMIT 2")
             result = cursor.fetchall()
 
             print(result)
@@ -230,7 +231,7 @@ def RoadApi(request):
             kmlString = request.POST['kmlString']
 
             cursor = connection.cursor()
-            cursor.execute("INSERT INTO heroku_postgresql_quizmania_roads (name, description, road) VALUES ( "+ name +", "+ description +", ST_GeomFromKML(' "+ kmlString +" '))")
+            cursor.execute("INSERT INTO "+ dbName +" (name, description, road) VALUES ( "+ name +", "+ description +", ST_GeomFromKML(' "+ kmlString +" '))")
             result = cursor.fetchall()
             print(result)
 
