@@ -216,17 +216,18 @@ def RoadApi(request):
             print(lat, lon)
 
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM ( SELECT name, discription, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM \""+ dbName +"\" ) as innertable WHERE distance <= 500 ORDER BY distance LIMIT 2")
+            cursor.execute("SELECT * FROM ( SELECT name, discription, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM \""+ dbName +"\" ) as innertable WHERE distance <= 500 ORDER BY distance")
             result = cursor.fetchall()
 
             print(result)
 
             return JsonResponse(result, safe=False)
     elif request.method == "GET" and request.GET['flag'] == 'i':
-        if 'name' in request.GET and 'description' in request.GET and 'kmlString' in request.GET:
+        if 'name' in request.GET and 'description' in request.GET and 'kmlString' in request.GET and 'dbName' in request.GET:
             name = request.GET['name']
             description = request.GET['description']
             kmlString = request.GET['kmlString']
+            dbName = str(request.GET['dbName'])
 
             cursor = connection.cursor()
             cursor.execute("INSERT INTO \""+ dbName +"\" (name, discription, road) VALUES ( "+ name +", "+ description +", ST_GeomFromKML(' "+ kmlString +" '))")
@@ -234,8 +235,6 @@ def RoadApi(request):
             print(result)
 
             return JsonResponse(result, safe=False)
-
-
     return JsonResponse({
     "error": "invalid request"
     })
