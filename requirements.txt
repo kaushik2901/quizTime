@@ -12,4 +12,3 @@ urllib3==1.22
 user-agents==1.1.0
 gunicorn>=19.1.0
 psycopg2>=2.4.5
-gdal>=2.0
