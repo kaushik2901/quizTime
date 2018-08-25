@@ -208,7 +208,7 @@ def Distance(request):
     return HttpResponse("Error : Invalid request")
 
 def RoadApi(request):
-    if request.method == "GET":
+    if request.method == "GET" and request.GET['flag'] == 'o':
         if "lat" in request.GET and "lon" in request.GET and 'dbName' in request.GET:
             lat = str(request.GET['lat'])
             lon = str(request.GET['lon'])
@@ -221,22 +221,32 @@ def RoadApi(request):
 
             print(result)
 
-            return JsonResponse({
-            "error": "road not found"
-            })
-    elif request.method == 'POST':
-        if 'name' in request.POST and 'description' in request.POST and 'kmlString' in request.POST:
-            name = request.POST['name']
-            description = request.POST['description']
-            kmlString = request.POST['kmlString']
+            return JsonResponse(json.dumps(result))
+    elif request.method == "GET" and request.GET['flag'] == 'i':
+        if 'name' in request.GET and 'description' in request.GET and 'kmlString' in request.GET:
+            name = request.GET['name']
+            description = request.GET['description']
+            kmlString = request.GET['kmlString']
 
             cursor = connection.cursor()
             cursor.execute("INSERT INTO \""+ dbName +"\" (name, discription, road) VALUES ( "+ name +", "+ description +", ST_GeomFromKML(' "+ kmlString +" '))")
             result = cursor.fetchall()
             print(result)
 
+            return JsonResponse(json.dumps(result))
+
 
     return JsonResponse({
     "error": "invalid request"
     })
+
+def RoadTable(request):
+    result = ['invalid']
+    if request.method == 'GET':
+        if 'dbName' in request.GET:
+            dbName = request.GET['dbName']
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM \""+ dbName +"\"")
+            result = cursor.fetchall()
+    return JsonResponse(json.dumps(result))
 
