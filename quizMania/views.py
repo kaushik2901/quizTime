@@ -215,7 +215,7 @@ def RoadApi(request):
             print(lat, lon)
 
             cursor = connection.cursor()
-            cursor.execute("SELECT name, description, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM quizMania_roads WHERE distance <= 500 ORDER BY distance LIMIT 2")
+            cursor.execute("SELECT name, description, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM Roads WHERE distance <= 500 ORDER BY distance LIMIT 2")
             result = cursor.fetchall()
 
             print(result)
@@ -224,7 +224,7 @@ def RoadApi(request):
             "error": "road not found"
             })
     elif request.method == 'POST':
-        if 'name' in request.POST and 'kmlString' in request.POST:
+        if 'name' in request.POST and 'description' in request.POST and 'kmlString' in request.POST:
             name = request.POST['name']
             description = request.POST['description']
             kmlString = request.POST['kmlString']
