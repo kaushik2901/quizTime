@@ -230,7 +230,7 @@ def RoadApi(request):
             dbName = str(request.GET['dbName'])
 
             cursor = connection.cursor()
-            cursor.execute("INSERT INTO \""+ dbName +"\" (name, discription, road) VALUES ( "+ name +", "+ description +", ST_GeomFromKML(' "+ kmlString +" '))")
+            cursor.execute("INSERT INTO \""+ dbName +"\" (name, discription, road) VALUES ( '"+ name +"', '"+ description +"', ST_GeomFromKML(' "+ kmlString +" '))")
             result = cursor.fetchall()
             print(result)
 
