@@ -216,7 +216,7 @@ def RoadApi(request):
             print(lat, lon)
 
             cursor = connection.cursor()
-            cursor.execute("SELECT name, discription, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM \""+ dbName +"\" WHERE distance <= 500 ORDER BY distance LIMIT 2")
+            cursor.execute("SELECT * FROM ( SELECT name, discription, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM \""+ dbName +"\" ) as innertable WHERE distance <= 500 ORDER BY distance LIMIT 2")
             result = cursor.fetchall()
 
             print(result)
