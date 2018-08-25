@@ -69,7 +69,7 @@ class RoadMapping(models.Model):
 class Roads(geomodels.Model):
     name = geomodels.CharField(max_length=50)
     discription = geomodels.CharField(max_length=200, blank=True, null=True)
-    road = geomodels.LineStringField()
+    road = geomodels.LineStringField(dim=3)
     
     def __str__(self):
         return str(self.name)
