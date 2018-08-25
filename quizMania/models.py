@@ -68,7 +68,7 @@ class RoadMapping(models.Model):
     
 class Roads(geomodels.Model):
     name = geomodels.CharField(max_length=50)
-    area = geomodels.IntegerField()
+    discription = geomodels.CharField(max_length=200, blank=True, null=True)
     road = geomodels.LineStringField()
     
     def __str__(self):

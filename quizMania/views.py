@@ -4,6 +4,7 @@ from .models import *
 from .forms import *
 from .settings import *
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import connection
 import json
 import random
 from math import *
@@ -207,37 +208,34 @@ def Distance(request):
     return HttpResponse("Error : Invalid request")
 
 def RoadApi(request):
-	if request.method == "GET":
-			if "lat" in request.GET and "lon" in request.GET:
-				lat = float(request.GET['lat'])
-				lon = float(request.GET['lon'])
-				print(lat, lon)
-				allRoads = RoadMapping.objects.all()
-				for road in allRoads:
-					print(road.lat1, road.lon1, road.lat2, road.lon2)
+    if request.method == "GET":
+        if "lat" in request.GET and "lon" in request.GET:
+            lat = str(request.GET['lat'])
+            lon = str(request.GET['lon'])
+            print(lat, lon)
 
-					if float(road.lat1) >= lat > float(road.lat2) and float(road.lon1) <= lon < float(road.lon2):
-						data = [
-							{
-								"road_code": road.road_code,
-								"road_name": road.road_name,
-								"officer_id": road.officer_id,
-								"distance": random.randint(1, 200)
-							},
-{
-								"road_code": road.road_code,
-								"road_name": road.road_name,
-								"officer_id": road.officer_id,
-								"distance": random.randint(200, 400)
-							}
-						]
-						return JsonResponse(data, safe=False)
-				return JsonResponse({
-					"error": "road not found"
-				})
-			return JsonResponse({
-				"error": "invalid request"
-			})
-	return JsonResponse({
-		"error": "get method required"
-	})
+            cursor = connection.cursor()
+            cursor.execute("SELECT name, description, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM quizMania_roads WHERE distance <= 500 ORDER BY distance LIMIT 2")
+            result = cursor.fetchall()
+
+            print(result)
+
+            return JsonResponse({
+            "error": "road not found"
+            })
+    elif request.method == 'POST':
+        if 'name' in request.POST and 'kmlString' in request.POST:
+            name = request.POST['name']
+            description = request.POST['description']
+            kmlString = request.POST['kmlString']
+
+            cursor = connection.cursor()
+            cursor.execute("INSERT INTO quizMania_roads (name, description, road) VALUES ( "+ name +", "+ description +", ST_GeomFromKML(' "+ kmlString +" '))")
+            result = cursor.fetchall()
+            print(result)
+
+
+    return JsonResponse({
+    "error": "invalid request"
+    })
+
