@@ -221,7 +221,7 @@ def RoadApi(request):
 
             print(result)
 
-            return JsonResponse(json.dumps(result))
+            return JsonResponse(result, safe=False)
     elif request.method == "GET" and request.GET['flag'] == 'i':
         if 'name' in request.GET and 'description' in request.GET and 'kmlString' in request.GET:
             name = request.GET['name']
