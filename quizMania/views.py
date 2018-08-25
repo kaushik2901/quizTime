@@ -233,7 +233,7 @@ def RoadApi(request):
             result = cursor.fetchall()
             print(result)
 
-            return JsonResponse(json.dumps(result))
+            return JsonResponse(result, safe=False)
 
 
     return JsonResponse({
@@ -248,5 +248,5 @@ def RoadTable(request):
             cursor = connection.cursor()
             cursor.execute("SELECT * FROM \""+ dbName +"\"")
             result = cursor.fetchall()
-    return JsonResponse(json.dumps(result))
+    return JsonResponse(result, safe=False)
 
