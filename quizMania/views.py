@@ -219,9 +219,15 @@ def RoadApi(request):
             cursor.execute("SELECT * FROM ( SELECT name, discription, ST_Distance_Sphere(road, ST_MakePoint("+lon+","+lat+")) as distance FROM \""+ dbName +"\" ) as innertable WHERE distance <= 500 ORDER BY distance")
             result = cursor.fetchall()
 
-            print(result)
+            data = [
+                {
+                'road_code': i[0],
+                'name': i[1],
+                'distance': i[2]
+                } for i in result
+            ]
 
-            return JsonResponse(result, safe=False)
+            return JsonResponse(data, safe=False)
     elif request.method == "GET" and request.GET['flag'] == 'i':
         if 'name' in request.GET and 'description' in request.GET and 'kmlString' in request.GET and 'dbName' in request.GET:
             name = request.GET['name']
