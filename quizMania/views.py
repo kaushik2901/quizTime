@@ -259,9 +259,9 @@ from django.core.files.storage import FileSystemStorage
 
 def Image_Upload(request):
     if request.method == 'POST' and request.FILES['image']:
-        form = ImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponse(form.image)
-        return HttpResponse("Form invalid")
+        image = request.FILES['image']
+        img = Image(image=image)
+        img.save()
+        print(img.image)
+        return HttpResponse(img.image)
     return HttpResponse("Error")
