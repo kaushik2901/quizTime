@@ -77,5 +77,5 @@ class Roads(geomodels.Model):
         return str(self.id)
     
 class Image(models.Model):
-    image = models.FileField(upload_to='documents/')
+    image = models.FileField(upload_to='media/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
