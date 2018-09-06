@@ -32,6 +32,7 @@ urlpatterns = [
     path('distance/', views.Distance),
     path('road_api/', views.RoadApi),
     path('tables/', views.RoadTable),
+    path('upload_image/', views.Image_Upload),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
